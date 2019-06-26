@@ -1,9 +1,10 @@
 from appium import webdriver
 from config import Env
-from Public.actions import ElementAction
 
 
-def init_action():
-    driver = webdriver.Remote(Env.appium_url, Env.android_desc)
-    action = ElementAction(driver)
-    return action
+def driver():
+    """
+    初始化driver, 在每个用例的setup()中创建实例
+    :return:
+    """
+    return webdriver.Remote(Env.appium_url, Env.android_desc)

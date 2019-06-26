@@ -1,5 +1,4 @@
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException, WebDriverException
 
 
@@ -18,10 +17,8 @@ class BasePage:
         try:
             WebDriverWait(self.driver, timeout, poll_frequency=2).until(lambda dr: dr.find_element(*loc).is_displayed())
             return self.driver.find_element(*loc)
-        except NoSuchElementException:
-            print("元素不存在")
         except TimeoutException:
-            print("超时")
+            print("元素 {} 定位超时".format(loc))
         except WebDriverException:
             print("driver出问题了")
 
@@ -33,12 +30,10 @@ class BasePage:
         :return:
         """
         try:
-            WebDriverWait(self.driver, timeout, poll_frequency=2).until(lambda dr: dr.find_elements(*loc).is_displayed())
+            WebDriverWait(self.driver, timeout, poll_frequency=2).until(lambda dr: dr.find_elements(*loc))
             return self.driver.find_elements(*loc)
-        except NoSuchElementException:
-            print("元素不存在")
         except TimeoutException:
-            print("超时")
+            print("元素 {} 定位超时".format(loc))
         except WebDriverException:
             print("driver出问题了")
 

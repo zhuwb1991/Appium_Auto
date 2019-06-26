@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 
 
 class ElementAction(BasePage):
-    """元素操作"""
+    """封装元素操作"""
     def click(self, loc, index=-1):
         """
         点击操作
@@ -20,9 +20,9 @@ class ElementAction(BasePage):
         :return:
         """
         if index != -1:
-            self.find_element(loc)[index].click()
+            self.find_elements(loc)[index].click()
         else:
-            self.find_elements(loc).click()
+            self.find_element(loc).click()
 
     def send_keys(self, loc, value, index=-1):
         """
@@ -39,9 +39,24 @@ class ElementAction(BasePage):
             self.find_element(loc).clear()
             self.find_element(loc).send_keys(value)
 
+    def set_value(self, loc, value, index=-1):
+        """
+        用于iOS系统的输入操作
+        :param loc:
+        :param value:
+        :param index:
+        :return:
+        """
+        if index != -1:
+            self.find_elements(loc)[index].clear()
+            self.find_elements(loc)[index].set_value(value)
+        else:
+            self.find_element(loc).clear()
+            self.find_element(loc).set_value(value)
+
     def press_keycode(self, code):
         """
-        模拟点击系统按键
+        模拟点击Android系统按键
         :param code:
         :return:
         """
@@ -209,7 +224,7 @@ class ElementAction(BasePage):
 
     def permission_btn(self):
         """
-        处理权限弹窗
+        处理Android权限弹窗
         """
         button1 = "com.android.packageinstaller:id/permission_allow_button"
         button2 = ""
@@ -237,4 +252,9 @@ class ElementAction(BasePage):
             print('no alert')
 
     def close_app(self):
+        """关闭app"""
         self.driver.close_app()
+
+    def launch_app(self):
+        """启动或重启app"""
+        self.driver.launch_app()
